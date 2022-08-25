@@ -1,5 +1,7 @@
 import pygame
 
+from fighter import Fighter
+
 pygame.init()
 
 # screen game window
@@ -20,12 +22,21 @@ def draw_bg():
     screen.blit(scale_bg, (0, 0))
 
 
+# create two instances of fighters
+fighter_1 = Fighter(200, 310)
+fighter_2 = Fighter(700, 310)
+
+
 # game loop
 run = True
 while run:
 
     # draw background
     draw_bg()
+
+    # draw fighters
+    fighter_1.draw(screen)
+    fighter_2.draw(screen)
 
     # event handler
     for event in pygame.event.get():
