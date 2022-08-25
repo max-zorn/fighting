@@ -4,6 +4,7 @@ import pygame
 class Fighter:
     def __init__(self, x, y):
         self.rect = pygame.Rect((x, y, 80, 180))
+        self.vel_y = 0
 
     def move(self, screen_width):
         SPEED = 10
@@ -18,6 +19,11 @@ class Fighter:
             dx = -SPEED
         if key[pygame.K_d]:
             dx = SPEED
+        # jump
+        if key[pygame.K_w]:
+            self.vel_y = -30
+
+        dy += self.vel_y
 
         # ensure fighter stays on screen
         if self.rect.left + dx < 0:
