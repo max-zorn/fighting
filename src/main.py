@@ -39,7 +39,7 @@ while run:
     draw_bg()
 
     # move fighters
-    fighter_1.move(SCREEN_WIDTH)
+    fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT)
 
     # draw fighters
     fighter_1.draw(screen)
