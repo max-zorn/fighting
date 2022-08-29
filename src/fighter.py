@@ -19,6 +19,7 @@ class Fighter:
         self.attacking = False
         self.attack_type = 0
         self.attack_cooldown = 0
+        self.hit = False
         self.health = 100
 
     def load_images(self, sprite_sheet, animation_steps):
@@ -102,7 +103,9 @@ class Fighter:
 
     # handle animation updates
     def update(self):
-        if self.attacking:
+        if self.hit:
+            self.update_action(5)  # hit
+        elif self.attacking:
             if self.attack_type == 1:
                 self.update_action(3)  # light attack
             elif self.attack_type == 2:
@@ -142,6 +145,7 @@ class Fighter:
             )
             if attacking_rect.colliderect(target.rect):
                 target.health -= 10
+                target.hit = True
 
             pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
 
