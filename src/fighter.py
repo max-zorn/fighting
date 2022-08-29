@@ -132,18 +132,21 @@ class Fighter:
 
         # check if the animation has finished
         if self.frame_index >= len(self.animation_list[self.action]):
-            self.frame_index = 0
-
-            # check if attack was executed
-            if self.action in (3, 4):
-                self.attacking = False
-                self.attack_cooldown = 20
-            # if dmg was taken
-            if self.action == 5:
-                self.hit = False
-                # if the fighter was in the middle of other attack - the attack is stopped
-                self.attacking = False
-                self.attack_cooldown = 20
+            # check if fighter is dead then end the animation
+            if not self.alive:
+                self.frame_index = len(self.animation_list[self.action]) - 1
+            else:
+                self.frame_index = 0
+                # check if attack was executed
+                if self.action in (3, 4):
+                    self.attacking = False
+                    self.attack_cooldown = 20
+                # if dmg was taken
+                if self.action == 5:
+                    self.hit = False
+                    # if the fighter was in the middle of other attack - the attack is stopped
+                    self.attacking = False
+                    self.attack_cooldown = 20
 
     def attack(self, surface, target):
         if self.attack_cooldown == 0:
