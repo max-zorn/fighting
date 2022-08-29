@@ -129,10 +129,10 @@ class Fighter:
         if self.frame_index >= len(self.animation_list[self.action]):
             self.frame_index = 0
 
-        # check if attack was executed
-        if self.action in (3, 4):
-            self.attacking = False
-            self.attack_cooldown = 20
+            # check if attack was executed
+            if self.action in (3, 4):
+                self.attacking = False
+                self.attack_cooldown = 20
 
     def attack(self, surface, target):
         if self.attack_cooldown == 0:
