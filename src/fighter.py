@@ -133,6 +133,12 @@ class Fighter:
             if self.action in (3, 4):
                 self.attacking = False
                 self.attack_cooldown = 20
+            # if dmg was taken
+            if self.action == 5:
+                self.hit = False
+                # if the fighter was in the middle of other attack - the attack is stopped
+                self.attacking = False
+                self.attack_cooldown = 20
 
     def attack(self, surface, target):
         if self.attack_cooldown == 0:
