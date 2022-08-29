@@ -2,7 +2,8 @@ import pygame
 
 
 class Fighter:
-    def __init__(self, x, y, flip, data, sprite_sheet, animation_steps):
+    def __init__(self, player, x, y, flip, data, sprite_sheet, animation_steps):
+        self.player = player
         self.size = data[0]
         self.image_scale = data[1]
         self.offset = data[2]
@@ -54,25 +55,49 @@ class Fighter:
 
         # can only perform other actions if not currently attacking
         if not self.attacking:
-            # movement
-            if key[pygame.K_a]:
-                dx = -SPEED
-                self.running = True
-            if key[pygame.K_d]:
-                dx = SPEED
-                self.running = True
-            # jump
-            if key[pygame.K_w] and not self.jump:
-                self.vel_y = -30
-                self.jump = True
-            # attack
-            if key[pygame.K_r] or key[pygame.K_t]:
-                self.attack(surface, target)
-                # determine which attack button was used
-                if key[pygame.K_r]:
-                    self.attack_type = 1
-                if key[pygame.K_t]:
-                    self.attack_type = 2
+            # check player 1 controls
+            if self.player == 1:
+                # movement
+                if key[pygame.K_a]:
+                    dx = -SPEED
+                    self.running = True
+                if key[pygame.K_d]:
+                    dx = SPEED
+                    self.running = True
+                # jump
+                if key[pygame.K_w] and not self.jump:
+                    self.vel_y = -30
+                    self.jump = True
+                # attack
+                if key[pygame.K_r] or key[pygame.K_t]:
+                    self.attack(surface, target)
+                    # determine which attack button was used
+                    if key[pygame.K_r]:
+                        self.attack_type = 1
+                    if key[pygame.K_t]:
+                        self.attack_type = 2
+
+            # check player 2 controls
+            if self.player == 2:
+                # movement
+                if key[pygame.K_LEFT]:
+                    dx = -SPEED
+                    self.running = True
+                if key[pygame.K_RIGHT]:
+                    dx = SPEED
+                    self.running = True
+                # jump
+                if key[pygame.K_UP] and not self.jump:
+                    self.vel_y = -30
+                    self.jump = True
+                # attack
+                if key[pygame.K_k] or key[pygame.K_l]:
+                    self.attack(surface, target)
+                    # determine which attack button was used
+                    if key[pygame.K_k]:
+                        self.attack_type = 1
+                    if key[pygame.K_l]:
+                        self.attack_type = 2
 
         # apply gravity
         self.vel_y += GRAVITY
