@@ -9,7 +9,7 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Brawler")
+pygame.display.set_caption("Fighting")
 
 # set framerate
 clock = pygame.time.Clock()
@@ -19,6 +19,10 @@ FPS = 60
 YELLOW = (255, 255, 0)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
+
+# define game variables
+intro_count = 3
+last_count_update = pygame.time.get_ticks()
 
 # define fighter variables
 WARRIOR_SIZE = 162
@@ -42,6 +46,18 @@ wizard_sheet = pygame.image.load(WIZARD_IMAGE_PATH).convert_alpha()
 # define number of steps in each animation
 WARRIOR_ANIMATION_STEPS = [10, 8, 1, 7, 7, 3, 7]
 WIZARD_ANIMATION_STEPS = [8, 8, 1, 8, 8, 3, 7]
+
+# define font
+COUNT_FONT_PATH = "assets/fonts/turok.ttf"
+count_font = pygame.font.Font(COUNT_FONT_PATH, 80)
+score_font = pygame.font.Font(COUNT_FONT_PATH, 30)
+
+
+# function for drawing text
+def draw_text(text, font, text_col, x, y):
+    img = font.render(text, True, text_col)
+    screen.blit(img, (x, y))
+
 
 # function for drawing background
 def draw_bg():
@@ -77,9 +93,20 @@ while run:
     draw_health_bar(fighter_1.health, 20, 20)
     draw_health_bar(fighter_2.health, 580, 20)
 
-    # move fighters
-    fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_2)
-    fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_1)
+    # update countdown
+    if intro_count <= 0:
+        # move fighters
+        fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_2)
+        fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_1)
+    else:
+        # display count timer
+        draw_text(
+            str(intro_count), count_font, RED, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3
+        )
+        # update count timer
+        if (pygame.time.get_ticks() - last_count_update) >= 1000:
+            intro_count -= 1
+            last_count_update = pygame.time.get_ticks()
 
     # update fighters
     fighter_1.update()
