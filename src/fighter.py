@@ -70,7 +70,7 @@ class Fighter:
                     self.jump = True
                 # attack
                 if key[pygame.K_r] or key[pygame.K_t]:
-                    self.attack(surface, target)
+                    self.attack(target)
                     # determine which attack button was used
                     if key[pygame.K_r]:
                         self.attack_type = 1
@@ -92,7 +92,7 @@ class Fighter:
                     self.jump = True
                 # attack
                 if key[pygame.K_k] or key[pygame.K_l]:
-                    self.attack(surface, target)
+                    self.attack(target)
                     # determine which attack button was used
                     if key[pygame.K_k]:
                         self.attack_type = 1
@@ -173,7 +173,7 @@ class Fighter:
                     self.attacking = False
                     self.attack_cooldown = 20
 
-    def attack(self, surface, target):
+    def attack(self, target):
         if self.attack_cooldown == 0:
             self.attacking = True
             attacking_rect = pygame.Rect(
@@ -186,8 +186,6 @@ class Fighter:
                 target.health -= 10
                 target.hit = True
 
-            pygame.draw.rect(surface, (0, 255, 0), attacking_rect)
-
     def update_action(self, new_action):
         # check of the new action is different the previous one
         if new_action != self.action:
@@ -198,7 +196,6 @@ class Fighter:
 
     def draw(self, surface):
         img = pygame.transform.flip(self.image, self.flip, False)
-        pygame.draw.rect(surface, (255, 0, 0), self.rect)
         surface.blit(
             img,
             (
