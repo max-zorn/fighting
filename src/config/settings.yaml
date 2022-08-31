@@ -1,0 +1,30 @@
+game:
+  screen:
+    width: 1000
+    height: 600
+    fps: 60
+  colors:
+    yellow: !!python/tuple [ 255, 255, 0 ]
+    red: !!python/tuple [ 255, 0, 0 ]
+    white: !!python/tuple [ 255, 255, 255 ]
+  intro_count: 3
+  score: [0, 0]
+  round_over_cooldown: 2000
+  music: "assets/audio/music.mp3"
+  background: "assets/images/background/background.jpg"
+  victory: "assets/images/icons/victory.png"
+  font: "assets/fonts/turok.ttf"
+
+fighters:
+  warrior:
+    size: 162
+    scale: 4
+    offset: [72, 56]
+    weapon_sound: "assets/audio/sword.wav"
+    image: "assets/images/warrior/Sprites/warrior.png"
+  wizard:
+    size: 250
+    scale: 3
+    offset: [112, 107]
+    weapon_sound: "assets/audio/magic.wav"
+    image: "assets/images/wizard/Sprites/wizard.png"
