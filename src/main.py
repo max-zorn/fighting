@@ -2,6 +2,8 @@ import pygame
 from pygame import mixer
 from fighter import Fighter
 
+from misc.drawing import draw_bg, draw_text, draw_health_bar
+
 mixer.init()
 pygame.init()
 
@@ -75,117 +77,131 @@ count_font = pygame.font.Font(COUNT_FONT_PATH, 80)
 score_font = pygame.font.Font(COUNT_FONT_PATH, 30)
 
 
-# function for drawing text
-def draw_text(text, font, text_col, x, y):
-    img = font.render(text, True, text_col)
-    screen.blit(img, (x, y))
+# function for misc text
+# def draw_text(text, font, text_col, x, y):
+#     img = font.render(text, True, text_col)
+#     screen.blit(img, (x, y))
 
 
-# function for drawing background
-def draw_bg():
-    scale_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-    screen.blit(scale_bg, (0, 0))
+# function for misc background
+# def draw_bg():
+#     scale_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+#     screen.blit(scale_bg, (0, 0))
 
 
-# function for drawing fighter health bars
-def draw_health_bar(health, x, y):
-    ratio = health / 100
-    pygame.draw.rect(screen, WHITE, (x - 2, y - 2, 404, 34))
-    pygame.draw.rect(screen, RED, (x, y, 400, 30))
-    pygame.draw.rect(screen, YELLOW, (x, y, 400 * ratio, 30))
+# function for misc fighter health bars
+# def draw_health_bar(health, x, y):
+#     ratio = health / 100
+#     pygame.draw.rect(screen, WHITE, (x - 2, y - 2, 404, 34))
+#     pygame.draw.rect(screen, RED, (x, y, 400, 30))
+#     pygame.draw.rect(screen, YELLOW, (x, y, 400 * ratio, 30))
 
 
-# create two instances of fighters
-fighter_1 = Fighter(
-    1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS, sword_fx
-)
-fighter_2 = Fighter(
-    2, 700, 310, True, WIZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS, magic_fx
-)
+def game(config):
+    # create two instances of fighters
+    fighter_1 = Fighter(
+        1,
+        200,
+        310,
+        False,
+        WARRIOR_DATA,
+        warrior_sheet,
+        WARRIOR_ANIMATION_STEPS,
+        sword_fx,
+    )
+    fighter_2 = Fighter(
+        2, 700, 310, True, WIZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS, magic_fx
+    )
+    # game loop
+    run = True
+    while run:
+        clock.tick(FPS)
 
+        # draw background
+        draw_bg()
 
-# game loop
-run = True
-while run:
-    clock.tick(FPS)
-    # draw background
-    draw_bg()
+        # show fighters stats
+        draw_health_bar(fighter_1.health, 20, 20)
+        draw_health_bar(fighter_2.health, 580, 20)
+        draw_text("P1: " + str(score[0]), score_font, RED, 20, 60)
+        draw_text("P2: " + str(score[1]), score_font, RED, 580, 60)
 
-    # show fighters stats
-    draw_health_bar(fighter_1.health, 20, 20)
-    draw_health_bar(fighter_2.health, 580, 20)
-    draw_text("P1: " + str(score[0]), score_font, RED, 20, 60)
-    draw_text("P2: " + str(score[1]), score_font, RED, 580, 60)
-
-    # update countdown
-    if intro_count <= 0:
-        # move fighters
-        fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_2, round_over)
-        fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_1, round_over)
-    else:
-        # display count timer
-        draw_text(
-            str(intro_count), count_font, RED, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3
-        )
-        # update count timer
-        if (pygame.time.get_ticks() - last_count_update) >= 1000:
-            intro_count -= 1
-            last_count_update = pygame.time.get_ticks()
-
-    # update fighters
-    fighter_1.update()
-    fighter_2.update()
-
-    # draw fighters
-    fighter_1.draw(screen)
-    fighter_2.draw(screen)
-
-    # check for player defeat
-    if not round_over:
-        if not fighter_1.alive:
-            score[1] += 1
-            round_over = True
-            round_over_time = pygame.time.get_ticks()
-        elif not fighter_2.alive:
-            score[0] += 1
-            round_over = True
-            round_over_time = pygame.time.get_ticks()
-    else:
-        # display victory image
-        screen.blit(victory_img, (360, 150))
-        if pygame.time.get_ticks() - round_over_time > ROUND_OVER_COOLDOWN:
-            round_over = False
-            intro_count = 3
-            # TODO add reset
-            fighter_1 = Fighter(
-                1,
-                200,
-                310,
-                False,
-                WARRIOR_DATA,
-                warrior_sheet,
-                WARRIOR_ANIMATION_STEPS,
-                sword_fx,
+        # update countdown
+        if intro_count <= 0:
+            # move fighters
+            fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_2, round_over)
+            fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, screen, fighter_1, round_over)
+        else:
+            # display count timer
+            draw_text(
+                str(intro_count), count_font, RED, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 3
             )
-            fighter_2 = Fighter(
-                2,
-                700,
-                310,
-                True,
-                WIZARD_DATA,
-                wizard_sheet,
-                WIZARD_ANIMATION_STEPS,
-                magic_fx,
-            )
+            # update count timer
+            if (pygame.time.get_ticks() - last_count_update) >= 1000:
+                intro_count -= 1
+                last_count_update = pygame.time.get_ticks()
 
-    # event handler
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+        # update fighters
+        fighter_1.update()
+        fighter_2.update()
 
-    # update display
-    pygame.display.update()
+        # draw fighters
+        fighter_1.draw(screen)
+        fighter_2.draw(screen)
+
+        # check for player defeat
+        if not round_over:
+            if not fighter_1.alive:
+                score[1] += 1
+                round_over = True
+                round_over_time = pygame.time.get_ticks()
+            elif not fighter_2.alive:
+                score[0] += 1
+                round_over = True
+                round_over_time = pygame.time.get_ticks()
+        else:
+            # display victory image
+            screen.blit(victory_img, (360, 150))
+            if pygame.time.get_ticks() - round_over_time > ROUND_OVER_COOLDOWN:
+                round_over = False
+                intro_count = 3
+                # TODO add reset
+                fighter_1 = Fighter(
+                    1,
+                    200,
+                    310,
+                    False,
+                    WARRIOR_DATA,
+                    warrior_sheet,
+                    WARRIOR_ANIMATION_STEPS,
+                    sword_fx,
+                )
+                fighter_2 = Fighter(
+                    2,
+                    700,
+                    310,
+                    True,
+                    WIZARD_DATA,
+                    wizard_sheet,
+                    WIZARD_ANIMATION_STEPS,
+                    magic_fx,
+                )
+
+        # event handler
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+
+        # update display
+        pygame.display.update()
+
+    # exit pygame
+    pygame.quit()
 
 
-# exit pygame
-pygame.quit()
+def main(event, context):
+    game()
+
+
+if __name__ == "__main__":
+    main(1, 1)
