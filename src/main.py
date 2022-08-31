@@ -44,6 +44,14 @@ pygame.mixer.music.load(MUSIC_PATH)
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1, 0.0, 5000)
 
+SWORD_SOUND_PATH = "assets/audio/sword.wav"
+sword_fx = pygame.mixer.Sound(SWORD_SOUND_PATH)
+sword_fx.set_volume(0.5)
+
+MAGIC_SOUND_PATH = "assets/audio/magic.wav"
+magic_fx = pygame.mixer.Sound(MAGIC_SOUND_PATH)
+magic_fx.set_volume(0.5)
+
 # load background image
 IMAGE_PATH = "assets/images/background/background.jpg"
 bg_image = pygame.image.load(IMAGE_PATH).convert_alpha()
@@ -89,10 +97,10 @@ def draw_health_bar(health, x, y):
 
 # create two instances of fighters
 fighter_1 = Fighter(
-    1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS
+    1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS, sword_fx
 )
 fighter_2 = Fighter(
-    2, 700, 310, True, WIZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS
+    2, 700, 310, True, WIZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS, magic_fx
 )
 
 
@@ -150,10 +158,24 @@ while run:
             intro_count = 3
             # TODO add reset
             fighter_1 = Fighter(
-                1, 200, 310, False, WARRIOR_DATA, warrior_sheet, WARRIOR_ANIMATION_STEPS
+                1,
+                200,
+                310,
+                False,
+                WARRIOR_DATA,
+                warrior_sheet,
+                WARRIOR_ANIMATION_STEPS,
+                sword_fx,
             )
             fighter_2 = Fighter(
-                2, 700, 310, True, WIZARD_DATA, wizard_sheet, WIZARD_ANIMATION_STEPS
+                2,
+                700,
+                310,
+                True,
+                WIZARD_DATA,
+                wizard_sheet,
+                WIZARD_ANIMATION_STEPS,
+                magic_fx,
             )
 
     # event handler
