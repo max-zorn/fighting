@@ -24,6 +24,7 @@ fighters:
     weapon_sound: "assets/audio/sword.wav"
     image: "assets/images/warrior/Sprites/warrior.png"
     animation_steps: [10, 8, 1, 7, 7, 3, 7]
+    sprite_sheet:
   wizard:
     size: 250
     scale: 3

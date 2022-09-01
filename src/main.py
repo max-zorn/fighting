@@ -1,9 +1,10 @@
 import pygame
 
-from fighter import Fighter
 from config.config import load_config, Config
 from misc.drawing import draw_bg, draw_text, draw_health_bar
 from misc.sounding import sound_effects
+from fighters.warrior import Warrior
+from fighters.wizard import Wizard
 
 
 def run_game(config: Config) -> None:
@@ -28,30 +29,9 @@ def run_game(config: Config) -> None:
     score_font = pygame.font.Font(config.game.font, 30)
 
     # create two instances of fighters
-    fighter_1 = Fighter(
-        1,
-        200,
-        310,
-        False,
-        config.fighters.warrior.size,
-        config.fighters.warrior.scale,
-        config.fighters.warrior.offset,
-        config.fighters.warrior.image,
-        config.fighters.warrior.animation_steps,
-        sword_fx,
-    )
-    fighter_2 = Fighter(
-        2,
-        700,
-        310,
-        True,
-        config.fighters.wizard.size,
-        config.fighters.wizard.scale,
-        config.fighters.wizard.offset,
-        config.fighters.wizard.image,
-        config.fighters.wizard.animation_steps,
-        magic_fx,
-    )
+    fighter_1 = Warrior(pl=1, x=200, y=310, flip=False, sound=sword_fx)
+    fighter_2 = Wizard(pl=2, x=700, y=310, flip=True, sound=magic_fx)
+
     # game loop
     clock = pygame.time.Clock()
     run = True
@@ -159,9 +139,5 @@ def run_game(config: Config) -> None:
     pygame.quit()
 
 
-def main(event, context):
-    run_game(config=load_config(path="config"))
-
-
 if __name__ == "__main__":
-    main(1, 1)
+    run_game(config=load_config(path="config"))
