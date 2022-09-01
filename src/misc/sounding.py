@@ -1,7 +1,5 @@
 from pygame import mixer
 
-from src.config.config import Game
-
 
 def sound_effects(
     game_sound: str,
