@@ -4,6 +4,7 @@ import yaml
 
 @dataclass
 class Screen:
+    title: str
     width: int
     height: int
     fps: int
@@ -41,6 +42,7 @@ class Fighter:
     offset: list[int, int]
     weapon_sound: str
     image: str
+    animation_steps: list[int]
 
 
 @dataclass
@@ -55,13 +57,14 @@ class Config:
     fighters: Fighters
 
 
-def load_config():
-    with open(file=f"settings.yaml", mode="r") as f:
+def load_config(path: str = None) -> Config:
+    with open(file=f"{path}/settings.yaml", mode="r") as f:
         params = yaml.load(f, Loader=yaml.FullLoader)
 
     return Config(
         game=Game(
             screen=Screen(
+                title=params["game"]["screen"]["title"],
                 width=params["game"]["screen"]["width"],
                 height=params["game"]["screen"]["height"],
                 fps=params["game"]["screen"]["fps"],
@@ -86,6 +89,7 @@ def load_config():
                 offset=params["fighters"]["warrior"]["offset"],
                 weapon_sound=params["fighters"]["warrior"]["weapon_sound"],
                 image=params["fighters"]["warrior"]["image"],
+                animation_steps=params["fighters"]["warrior"]["animation_steps"],
             ),
             wizard=Fighter(
                 size=params["fighters"]["wizard"]["size"],
@@ -93,6 +97,11 @@ def load_config():
                 offset=params["fighters"]["wizard"]["offset"],
                 weapon_sound=params["fighters"]["wizard"]["weapon_sound"],
                 image=params["fighters"]["wizard"]["image"],
+                animation_steps=params["fighters"]["wizard"]["animation_steps"],
             ),
         ),
     )
+
+
+# a = load_config()
+# print(a)

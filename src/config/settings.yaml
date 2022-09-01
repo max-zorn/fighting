@@ -1,5 +1,6 @@
 game:
   screen:
+    title: Fighting
     width: 1000
     height: 600
     fps: 60
@@ -22,9 +23,11 @@ fighters:
     offset: [72, 56]
     weapon_sound: "assets/audio/sword.wav"
     image: "assets/images/warrior/Sprites/warrior.png"
+    animation_steps: [10, 8, 1, 7, 7, 3, 7]
   wizard:
     size: 250
     scale: 3
     offset: [112, 107]
     weapon_sound: "assets/audio/magic.wav"
     image: "assets/images/wizard/Sprites/wizard.png"
+    animation_steps: [8, 8, 1, 8, 8, 3, 7]
