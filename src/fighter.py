@@ -58,7 +58,7 @@ class Fighter:
             animation_list.append(temp_img_list)
         return animation_list
 
-    def move(self, screen_width, screen_hight, surface, target, round_over):
+    def move(self, screen_width, screen_hight, target, round_over):
         SPEED = 10
         GRAVITY = 2
         dx = 0

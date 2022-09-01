@@ -94,14 +94,12 @@ def run_game(config: Config) -> None:
             fighter_1.move(
                 config.game.screen.width,
                 config.game.screen.height,
-                screen,
                 fighter_2,
                 round_over,
             )
             fighter_2.move(
                 config.game.screen.width,
                 config.game.screen.height,
-                screen,
                 fighter_1,
                 round_over,
             )
