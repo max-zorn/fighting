@@ -12,8 +12,8 @@ def draw_text(
     text: str,
     font: Font,
     text_col: tuple[int, int, int],
-    x: int,
-    y: int,
+    x: int | float,
+    y: int | float,
 ) -> None:
     # function for drawing text
     img = font.render(text, True, text_col)
