@@ -1,7 +1,7 @@
 from pygame.mixer import Sound
 from pygame import Rect
 
-from fighter import Fighter
+from .fighter import Fighter
 from src.config.config import load_config
 
 config = load_config(path="config")
