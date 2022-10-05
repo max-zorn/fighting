@@ -8,6 +8,7 @@ from fighters.wizard import Wizard
 
 
 def run_game(config: Config) -> None:
+    """ Запуск игры и отрисовка всех элементов """
     sword_fx, magic_fx = sound_effects(
         game_sound=config.game.music,
         p1_weapon_sound=config.fighters.warrior.weapon_sound,
